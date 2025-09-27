@@ -1,0 +1,17 @@
+[package]
+name = "nekoprint"
+version = "0.0.1"
+edition = "2024"
+
+[lib]
+proc-macro = true
+
+
+[dependencies]
+syn =  { version = "2", features = ["full"]}
+quote = '1'
+proc-macro2 =  '1'
+mokuya = "0"
+chrono = "0"
+colorful = "0"
+tokio = { version = "1.43.0", features = ["full"] }
