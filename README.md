@@ -1,7 +1,3 @@
-Sure, here's the README for `nekoprint` in English, ready for you to copy and paste.
-
------
-
 # `nekoprint`
 
 [![Crates.io](https://img.shields.io/crates/v/nekoprint.svg)](https://crates.io/crates/nekoprint)
