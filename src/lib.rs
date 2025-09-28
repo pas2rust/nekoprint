@@ -15,17 +15,7 @@ pub fn nekoprint(input: TokenStream) -> TokenStream {
     let mut expanded = TokenStream2::new();
     for_extend_token_stream(
         &mut expanded,
-        vec![
-            generate_printers_by_field(&input),
-            generate_printers(&input),
-            generate_printers_critical_by_field(&input),
-            generate_printers_panic_by_field(&input),
-            generate_printers_err_by_field(&input),
-            generate_printers_info_by_field(&input),
-            generate_printers_rust_by_field(&input),
-            generate_printers_warning_by_field(&input),
-            generate_printers_success_by_field(&input),
-        ],
+        vec![generate_print_by_field(&input), generate_printers(&input)],
     );
     expanded.into()
 }

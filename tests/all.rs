@@ -1,40 +1,104 @@
 use nekoprint::NekoPrint;
 
-#[derive(Debug, NekoPrint)]
+#[derive(Debug, NekoPrint, Default, Clone)]
 #[transporter(async fn procedure() {
    println!("{message}");
    let m = message.to_string();
     assert!(
-        m.contains("custom message") || m.contains("#")
+        m.contains("message")
     );
 })]
 pub struct User {
     id: i32,
     name: String,
+    friend: Friend,
+}
+
+#[derive(Debug, NekoPrint, Default, Clone)]
+#[transporter(async fn procedure() {
+   println!("{message}");
+   let m = message.to_string();
+    assert!(
+        m.contains("message")
+    );
+})]
+pub struct Friend {
+    id: i32,
+    name: String,
 }
 
 #[tokio::test]
-async fn all_print_methods_do_not_panic() {
+async fn test_print_user() {
     let user = User {
         id: 1,
         name: "name".into(),
+        friend: Friend {
+            id: 1,
+            name: "name".into(),
+        },
     };
 
-    user.print("custom message").await;
-    user.print_success("#").await;
-    user.print_warning("#").await;
-    user.print_critical("#").await;
-    user.print_err("#").await;
-    user.print_info("#").await;
-    user.print_panic("#").await;
-    user.print_rust("#").await;
+    user.print_id().message("custom message for id").err().await;
+    user.print_name()
+        .message("custom message for name")
+        .err()
+        .await;
 
-    user.print_name("custom message").await;
-    user.print_success_name("#").await;
-    user.print_warning_name("#").await;
-    user.print_critical_name("#").await;
-    user.print_err_name("#").await;
-    user.print_info_name("#").await;
-    user.print_panic_name("#").await;
-    user.print_rust_name("#").await;
+    user.print_id().message("info id message").info().await;
+    user.print_id()
+        .message("success id message")
+        .success()
+        .await;
+    user.print_id()
+        .message("warning id message")
+        .warning()
+        .await;
+    user.print_id()
+        .message("critical id message")
+        .critical()
+        .await;
+    user.print_id().message("panic id message").panic().await;
+    user.print_id()
+        .message("rust debug id message")
+        .rust()
+        .await;
+
+    user.print_name().message("info name message").info().await;
+    user.print_name()
+        .message("success name message")
+        .success()
+        .await;
+    user.print_name()
+        .message("warning name message")
+        .warning()
+        .await;
+    user.print_name()
+        .message("critical name message")
+        .critical()
+        .await;
+    user.print_name()
+        .message("panic name message")
+        .panic()
+        .await;
+    user.print_name()
+        .message("rust debug name message")
+        .rust()
+        .await;
+
+    user.print().message("custom message for all").err().await;
+    user.print().message("custom message for all").info().await;
+    user.print()
+        .message("custom message for all")
+        .success()
+        .await;
+    user.print()
+        .message("custom message for all")
+        .warning()
+        .await;
+    user.print().message("custom message for all").panic().await;
+    user.print()
+        .message("custom message for all")
+        .critical()
+        .await;
+    user.print().message("custom message for all").rust().await;
 }

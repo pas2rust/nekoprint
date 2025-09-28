@@ -5,27 +5,22 @@ use syn::{DeriveInput, ItemFn};
 pub fn generate_printers(input: &DeriveInput) -> proc_macro2::TokenStream {
     let attributes = get_attributes(input);
     let impl_block = get_impl(input);
+    let struct_name = get_struct_name(input);
     let transporter = match get_attr::<ItemFn>(&attributes, "transporter") {
         Ok(transporter) => transporter.block.stmts,
         Err(_) => Vec::new(),
     };
+    let printer_struct_name = new_ident("Neko_Print_Printer", &struct_name);
 
     quote! {
-        impl #impl_block {
-            pub async fn print(&self, custom: &str) {
-                let message = format!(
-                    "({} {} {}:{}) @PRINT => {:#?} {}",
-                    chrono::Local::now(),
-                    file!(),
-                    line!(),
-                    column!(),
-                    &self,
-                    custom,
-                );
-                #(#transporter)*(message);
-            }
+        #[derive(Debug, Default, kenzu::Builder)]
+        pub struct #printer_struct_name {
+            pub target: #struct_name,
+            pub message: String,
+        }
 
-            pub async fn print_rust(&self, custom: &str) {
+        impl #printer_struct_name {
+            pub async fn rust(&self) {
                 use colorful::Colorful;
                 let message = format!(
                   "({} {} {}:{}) @RUST => {:#?} {}",
@@ -33,13 +28,13 @@ pub fn generate_printers(input: &DeriveInput) -> proc_macro2::TokenStream {
                     file!(),
                     line!(),
                     column!(),
-                    &self,
-                    custom,
+                    &self.target,
+                    &self.message,
                 ).rgb(255,165,0);
                 #(#transporter)*(message);
             }
 
-            pub async fn print_info(&self, custom: &str) {
+            pub async fn info(&self) {
                 use colorful::Colorful;
                 let message = format!(
                   "({} {} {}:{}) @INFO => {:#?} {}",
@@ -47,13 +42,13 @@ pub fn generate_printers(input: &DeriveInput) -> proc_macro2::TokenStream {
                     file!(),
                     line!(),
                     column!(),
-                    &self,
-                    custom,
+                    &self.target,
+                    &self.message,
                 ).rgb(0,191,255);
                 #(#transporter)*(message);
             }
 
-            pub async fn print_success(&self, custom: &str) {
+            pub async fn success(&self) {
                 use colorful::Colorful;
                 let message = format!(
                     "({} {} {}:{}) @SUCCESS => {:#?} {}",
@@ -61,13 +56,13 @@ pub fn generate_printers(input: &DeriveInput) -> proc_macro2::TokenStream {
                     file!(),
                     line!(),
                     column!(),
-                    &self,
-                    custom,
+                    &self.target,
+                    &self.message,
                 ).green();
                 #(#transporter)*(message);
             }
 
-            pub async fn print_warning(&self, custom: &str) {
+            pub async fn warning(&self) {
                 use colorful::Colorful;
                 let message = format!(
                   "({} {} {}:{}) @WARNING => {:#?} {}",
@@ -75,13 +70,13 @@ pub fn generate_printers(input: &DeriveInput) -> proc_macro2::TokenStream {
                     file!(),
                     line!(),
                     column!(),
-                    &self,
-                    custom,
+                    &self.target,
+                    &self.message,
                 ).yellow();
                 #(#transporter)*(message);
             }
 
-            pub async fn print_err(&self, custom: &str) {
+            pub async fn err(&self) {
                 use colorful::Colorful;
                 let message = format!(
                     "({} {} {}:{}) @ERROR => {:#?} {}",
@@ -89,13 +84,13 @@ pub fn generate_printers(input: &DeriveInput) -> proc_macro2::TokenStream {
                     file!(),
                     line!(),
                     column!(),
-                    &self,
-                    custom,
+                    &self.target,
+                    &self.message,
                 ).rgb(255, 49, 49);
                 #(#transporter)*(message);
             }
 
-            pub async fn print_critical(&self, custom: &str) {
+            pub async fn critical(&self) {
                 use colorful::Colorful;
                 let message = format!(
                    "({} {} {}:{}) @CRITICAL => {:#?} {}",
@@ -103,13 +98,13 @@ pub fn generate_printers(input: &DeriveInput) -> proc_macro2::TokenStream {
                     file!(),
                     line!(),
                     column!(),
-                    &self,
-                    custom,
+                    &self.target,
+                    &self.message,
                 ).red();
                 #(#transporter)*(message);
             }
 
-            pub async fn print_panic(&self, custom: &str) {
+            pub async fn panic(&self) {
                 use colorful::Colorful;
                 let message = format!(
                    "({} {} {}:{}) @PANIC => {:#?} {}",
@@ -117,10 +112,16 @@ pub fn generate_printers(input: &DeriveInput) -> proc_macro2::TokenStream {
                     file!(),
                     line!(),
                     column!(),
-                    &self,
-                    custom,
+                    &self.target,
+                    &self.message,
                 ).rgb(225,32,254);
                 #(#transporter)*(message);
+            }
+        }
+
+        impl #impl_block {
+            pub fn print(&self) -> #printer_struct_name {
+                #printer_struct_name::new().target(self.clone())
             }
         }
     }
