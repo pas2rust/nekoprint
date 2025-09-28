@@ -49,7 +49,7 @@ cargo add nekoprint
 
 ### Defining Your Struct
 
-Decorate your struct with `#[derive(NekoPrint)]` and use the `#[transporter]` attribute to define how the log message will be processed. The transporter is an `async` function that takes a `message` variable (a `String`).
+Decorate your struct with `#[derive(NekoPrint)]` and use the `#[transporter]` attribute to define how the log message will be processed. The transporter is an `async` function that takes a `message` variable (a `CString`).
 
 ```rust
 use nekoprint::NekoPrint;
