@@ -5,7 +5,6 @@ use quote::quote;
 use syn::{DeriveInput, FnArg, ItemFn, ReturnType, parse_macro_input};
 mod components;
 
-#[cfg(feature = "print")]
 #[proc_macro_derive(NekoPrint, attributes(transporter))]
 pub fn nekoprint(input: TokenStream) -> TokenStream {
     use components::prelude::*;
@@ -21,7 +20,6 @@ pub fn nekoprint(input: TokenStream) -> TokenStream {
     expanded.into()
 }
 
-#[cfg(feature = "tracing")]
 #[proc_macro_attribute]
 pub fn trancing(_args: TokenStream, input: TokenStream) -> TokenStream {
     let func = parse_macro_input!(input as ItemFn);

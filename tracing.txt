@@ -1,0 +1,2 @@
+(2025-10-12 19:16:25.641030931 -03:00 tests/nekoprint.rs 18:5)␞fn test␞(self = User { id: 1, name: "name", friend: Friend { id: 1, name: "name" } }) -> "()"␞execution time=269.423µs
+(2025-10-12 19:16:25.641465271 -03:00 tests/nekoprint.rs 20:5)␞async fn atest␞(self = User { id: 1, name: "name", friend: Friend { id: 1, name: "name" } }) -> "()"␞execution time=19.061µs

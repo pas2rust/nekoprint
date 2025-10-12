@@ -1,5 +1,3 @@
-#![cfg(feature = "test")]
-
 use nekoprint::{NekoPrint, trancing};
 
 #[derive(Debug, NekoPrint, Default, Clone)]

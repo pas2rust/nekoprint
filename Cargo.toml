@@ -7,7 +7,7 @@ repository = "https://github.com/pas2rust/nekoprint"
 readme = "README.md"
 description = "nekoprint is a powerful procedural macro for Rust that automatically generates printing methods for a struct's fields and the entire struct itself. It lets you create fluid, asynchronous logs with different severity levels using a simple, chained syntax. This library is ideal for debugging, monitoring, and diagnostics in Rust applications, especially those using async/await."
 keywords = ["logging", "print", "colors", "tracing", "metrics"]
-categories = ["debugging", "asynchronous", "profiling"]
+categories = ["Debugging", "Asynchronous", "Profiling"]
 authors = ["pas2rust <pas2000@proton.me>"]
 homepage = "https://github.com/pas2rust/"
 documentation = "https://docs.rs/nekoprint"
@@ -22,17 +22,12 @@ include = [
 proc-macro = true
 
 [features]
-default = ["tracing"]
-tracing = ["dep:chrono", "dep:tokio"]
-print = ["dep:colorful"]
-test = ["full", "tokio/macros", "tokio/rt-multi-thread"]
-full = ["tracing", "print"] 
 
 [dependencies]
 syn =  { version = "2", features = ["full"]}
 quote = '1'
 proc-macro2 =  '1'
 mokuya = "0"
-chrono = { version = "0", optional = true } 
-colorful = { version = "0", optional = true }
-tokio = { version = "1", features = ["fs", "io-util"], optional = true }
+chrono = { version = "0"} 
+colorful = { version = "0"}
+tokio = { version = "1", features = ["fs", "io-util", "macros", "rt-multi-thread"]}
