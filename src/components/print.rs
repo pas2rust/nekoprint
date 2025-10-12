@@ -1,127 +1,156 @@
 use mokuya::components::prelude::*;
+use proc_macro2::Span;
 use quote::quote;
-use syn::{DeriveInput, ItemFn};
+use syn::{DeriveInput, Ident, ItemFn};
 
 pub fn generate_printers(input: &DeriveInput) -> proc_macro2::TokenStream {
     let attributes = get_attributes(input);
     let impl_block = get_impl(input);
     let struct_name = get_struct_name(input);
-    let transporter = match get_attr::<ItemFn>(&attributes, "transporter") {
-        Ok(transporter) => transporter.block.stmts,
+    let transporter_stmts = match get_attr::<ItemFn>(&attributes, "transporter") {
+        Ok(transporter) => transporter.block.stmts.clone(),
         Err(_) => Vec::new(),
     };
-    let printer_struct_name = new_ident("Neko_Print_Printer", &struct_name);
+    let printer_struct_name = Ident::new(&format!("NekoPrint{struct_name}"), Span::call_site());
 
     quote! {
-        #[derive(Debug, Default, kenzu::Builder)]
+        #[derive(Debug, Clone)]
         pub struct #printer_struct_name {
-            pub target: #struct_name,
-            pub message: String,
+            pub target: Option<#struct_name>,
+            pub message: Option<String>,
         }
 
         impl #printer_struct_name {
-            pub async fn rust(&self) {
+            pub fn new() -> Self {
+                Self { target: None, message: None }
+            }
+
+            pub fn target<T: Into<#struct_name>>(mut self, t: T) -> Self {
+                self.target = Some(t.into());
+                self
+            }
+
+            pub fn message<S: Into<String>>(mut self, m: S) -> Self {
+                self.message = Some(m.into());
+                self
+            }
+
+            pub async fn rust(self) {
                 use colorful::Colorful;
+                let target = self.target.expect(concat!("NekoPrint: target for ", stringify!(#printer_struct_name), " is required"));
+                let message_text = self.message.unwrap_or_default();
                 let message = format!(
                   "({} {} {}:{}) @RUST => {:#?} {}",
                     chrono::Local::now(),
                     file!(),
                     line!(),
                     column!(),
-                    &self.target,
-                    &self.message,
+                    &target,
+                    &message_text,
                 ).rgb(255,165,0);
-                #(#transporter)*(message);
+                #(#transporter_stmts)*
             }
 
-            pub async fn info(&self) {
+            pub async fn info(self) {
                 use colorful::Colorful;
+                let target = self.target.expect(concat!("NekoPrint: target for ", stringify!(#printer_struct_name), " is required"));
+                let message_text = self.message.unwrap_or_default();
                 let message = format!(
                   "({} {} {}:{}) @INFO => {:#?} {}",
                     chrono::Local::now(),
                     file!(),
                     line!(),
                     column!(),
-                    &self.target,
-                    &self.message,
+                    &target,
+                    &message_text,
                 ).rgb(0,191,255);
-                #(#transporter)*(message);
+                #(#transporter_stmts)*
             }
 
-            pub async fn success(&self) {
+            pub async fn success(self) {
                 use colorful::Colorful;
+                let target = self.target.expect(concat!("NekoPrint: target for ", stringify!(#printer_struct_name), " is required"));
+                let message_text = self.message.unwrap_or_default();
                 let message = format!(
                     "({} {} {}:{}) @SUCCESS => {:#?} {}",
                     chrono::Local::now(),
                     file!(),
                     line!(),
                     column!(),
-                    &self.target,
-                    &self.message,
+                    &target,
+                    &message_text,
                 ).green();
-                #(#transporter)*(message);
+                #(#transporter_stmts)*
             }
 
-            pub async fn warning(&self) {
+            pub async fn warning(self) {
                 use colorful::Colorful;
+                let target = self.target.expect(concat!("NekoPrint: target for ", stringify!(#printer_struct_name), " is required"));
+                let message_text = self.message.unwrap_or_default();
                 let message = format!(
                   "({} {} {}:{}) @WARNING => {:#?} {}",
                     chrono::Local::now(),
                     file!(),
                     line!(),
                     column!(),
-                    &self.target,
-                    &self.message,
+                    &target,
+                    &message_text,
                 ).yellow();
-                #(#transporter)*(message);
+                #(#transporter_stmts)*
             }
 
-            pub async fn err(&self) {
+            pub async fn err(self) {
                 use colorful::Colorful;
+                let target = self.target.expect(concat!("NekoPrint: target for ", stringify!(#printer_struct_name), " is required"));
+                let message_text = self.message.unwrap_or_default();
                 let message = format!(
                     "({} {} {}:{}) @ERROR => {:#?} {}",
                     chrono::Local::now(),
                     file!(),
                     line!(),
                     column!(),
-                    &self.target,
-                    &self.message,
+                    &target,
+                    &message_text,
                 ).rgb(255, 49, 49);
-                #(#transporter)*(message);
+                #(#transporter_stmts)*
             }
 
-            pub async fn critical(&self) {
+            pub async fn critical(self) {
                 use colorful::Colorful;
+                let target = self.target.expect(concat!("NekoPrint: target for ", stringify!(#printer_struct_name), " is required"));
+                let message_text = self.message.unwrap_or_default();
                 let message = format!(
                    "({} {} {}:{}) @CRITICAL => {:#?} {}",
                     chrono::Local::now(),
                     file!(),
                     line!(),
                     column!(),
-                    &self.target,
-                    &self.message,
+                    &target,
+                    &message_text,
                 ).red();
-                #(#transporter)*(message);
+                #(#transporter_stmts)*
             }
 
-            pub async fn panic(&self) {
+            pub async fn panic(self) {
                 use colorful::Colorful;
+                let target = self.target.expect(concat!("NekoPrint: target for ", stringify!(#printer_struct_name), " is required"));
+                let message_text = self.message.unwrap_or_default();
                 let message = format!(
                    "({} {} {}:{}) @PANIC => {:#?} {}",
                     chrono::Local::now(),
                     file!(),
                     line!(),
                     column!(),
-                    &self.target,
-                    &self.message,
+                    &target,
+                    &message_text,
                 ).rgb(225,32,254);
-                #(#transporter)*(message);
+                #(#transporter_stmts)*
             }
         }
 
         impl #impl_block {
             pub fn print(&self) -> #printer_struct_name {
-                #printer_struct_name::new().target(self.clone())
+               #printer_struct_name::new().target(self.clone())
             }
         }
     }
