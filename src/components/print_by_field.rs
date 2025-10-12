@@ -55,7 +55,6 @@ pub fn generate_print_by_field(input: &DeriveInput) -> proc_macro2::TokenStream 
                     pub async fn rust(self) {
                         let target = self.target.expect(concat!("NekoPrint: target for ", stringify!(#printer_struct_name), " is required"));
                         let message_text = self.message.unwrap_or_default();
-                        println!("{:#?}", &target);
                         use colorful::Colorful;
                         let message = format!(
                             "({} {} {}:{}) @RUST => {}.{}:{} = {:#?} {}",

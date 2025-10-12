@@ -1,4 +1,6 @@
-use nekoprint::NekoPrint;
+#![cfg(feature = "test")]
+
+use nekoprint::{NekoPrint, trancing};
 
 #[derive(Debug, NekoPrint, Default, Clone)]
 #[transporter(async fn procedure() {
@@ -12,6 +14,13 @@ pub struct User {
     id: i32,
     name: String,
     friend: Friend,
+}
+
+impl User {
+    #[trancing]
+    fn test(&self) {}
+    #[trancing]
+    async fn atest(&self) {}
 }
 
 #[derive(Debug, NekoPrint, Default, Clone)]
@@ -37,6 +46,8 @@ async fn test_print_user() {
             name: "name".into(),
         },
     };
+    user.test();
+    user.atest().await;
 
     user.print_id().message("custom message for id").err().await;
     user.print_name()

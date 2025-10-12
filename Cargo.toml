@@ -21,11 +21,18 @@ include = [
 [lib]
 proc-macro = true
 
+[features]
+default = ["tracing"]
+tracing = ["dep:chrono", "dep:tokio"]
+print = ["dep:colorful"]
+test = ["full", "tokio/macros", "tokio/rt-multi-thread"]
+full = ["tracing", "print"] 
+
 [dependencies]
 syn =  { version = "2", features = ["full"]}
 quote = '1'
 proc-macro2 =  '1'
 mokuya = "0"
-chrono = "0"
-colorful = "0"
-tokio = { version = "1", features = ["full"] }
+chrono = { version = "0", optional = true } 
+colorful = { version = "0", optional = true }
+tokio = { version = "1", features = ["fs", "io-util"], optional = true }
