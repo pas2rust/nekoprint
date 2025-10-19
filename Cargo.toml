@@ -26,4 +26,4 @@ tokio = "1"
 nekoprint-macro = "0.0.1"
 
 [dev-dependencies]
-tokio = {version = "*", features = ["full"]}
+tokio = {version = "1", features = ["full"]}
