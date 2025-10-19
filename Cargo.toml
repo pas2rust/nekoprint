@@ -1,6 +1,6 @@
 [package]
 name = "nekoprint"
-version = "0.1.5"
+version = "0.1.6"
 edition = "2024"
 license = "MIT OR Apache-2.0"
 repository = "https://github.com/pas2rust/nekoprint"
@@ -31,3 +31,5 @@ nekoprint-imports = "0.0.1"
 
 [dev-dependencies]
 tokio = { version = "1", features = ["macros", "rt-multi-thread"]}
+chrono = { version = "0"} 
+colorful = { version = "0"}
