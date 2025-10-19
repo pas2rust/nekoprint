@@ -36,12 +36,12 @@ pub fn generate_printers(input: &DeriveInput) -> proc_macro2::TokenStream {
             }
 
             pub async fn rust(self) {
-                use colorful::Colorful;
+                use nekoprint_imports::colorful::Colorful;
                 let target = self.target.expect(concat!("NekoPrint: target for ", stringify!(#printer_struct_name), " is required"));
                 let message_text = self.message.unwrap_or_default();
                 let message = format!(
                   "({} {} {}:{}) @RUST => {:#?} {}",
-                    chrono::Local::now(),
+                    nekoprint_imports::chrono::Local::now(),
                     file!(),
                     line!(),
                     column!(),
@@ -52,12 +52,12 @@ pub fn generate_printers(input: &DeriveInput) -> proc_macro2::TokenStream {
             }
 
             pub async fn info(self) {
-                use colorful::Colorful;
+                use nekoprint_imports::colorful::Colorful;
                 let target = self.target.expect(concat!("NekoPrint: target for ", stringify!(#printer_struct_name), " is required"));
                 let message_text = self.message.unwrap_or_default();
                 let message = format!(
                   "({} {} {}:{}) @INFO => {:#?} {}",
-                    chrono::Local::now(),
+                    nekoprint_imports::chrono::Local::now(),
                     file!(),
                     line!(),
                     column!(),
@@ -68,12 +68,12 @@ pub fn generate_printers(input: &DeriveInput) -> proc_macro2::TokenStream {
             }
 
             pub async fn success(self) {
-                use colorful::Colorful;
+                use nekoprint_imports::colorful::Colorful;
                 let target = self.target.expect(concat!("NekoPrint: target for ", stringify!(#printer_struct_name), " is required"));
                 let message_text = self.message.unwrap_or_default();
                 let message = format!(
                     "({} {} {}:{}) @SUCCESS => {:#?} {}",
-                    chrono::Local::now(),
+                    nekoprint_imports::chrono::Local::now(),
                     file!(),
                     line!(),
                     column!(),
@@ -84,12 +84,12 @@ pub fn generate_printers(input: &DeriveInput) -> proc_macro2::TokenStream {
             }
 
             pub async fn warning(self) {
-                use colorful::Colorful;
+                use nekoprint_imports::colorful::Colorful;
                 let target = self.target.expect(concat!("NekoPrint: target for ", stringify!(#printer_struct_name), " is required"));
                 let message_text = self.message.unwrap_or_default();
                 let message = format!(
                   "({} {} {}:{}) @WARNING => {:#?} {}",
-                    chrono::Local::now(),
+                    nekoprint_imports::chrono::Local::now(),
                     file!(),
                     line!(),
                     column!(),
@@ -100,12 +100,12 @@ pub fn generate_printers(input: &DeriveInput) -> proc_macro2::TokenStream {
             }
 
             pub async fn err(self) {
-                use colorful::Colorful;
+                use nekoprint_imports::colorful::Colorful;
                 let target = self.target.expect(concat!("NekoPrint: target for ", stringify!(#printer_struct_name), " is required"));
                 let message_text = self.message.unwrap_or_default();
                 let message = format!(
                     "({} {} {}:{}) @ERROR => {:#?} {}",
-                    chrono::Local::now(),
+                    nekoprint_imports::chrono::Local::now(),
                     file!(),
                     line!(),
                     column!(),
@@ -116,12 +116,12 @@ pub fn generate_printers(input: &DeriveInput) -> proc_macro2::TokenStream {
             }
 
             pub async fn critical(self) {
-                use colorful::Colorful;
+                use nekoprint_imports::colorful::Colorful;
                 let target = self.target.expect(concat!("NekoPrint: target for ", stringify!(#printer_struct_name), " is required"));
                 let message_text = self.message.unwrap_or_default();
                 let message = format!(
                    "({} {} {}:{}) @CRITICAL => {:#?} {}",
-                    chrono::Local::now(),
+                    nekoprint_imports::chrono::Local::now(),
                     file!(),
                     line!(),
                     column!(),
@@ -132,12 +132,12 @@ pub fn generate_printers(input: &DeriveInput) -> proc_macro2::TokenStream {
             }
 
             pub async fn panic(self) {
-                use colorful::Colorful;
+                use nekoprint_imports::colorful::Colorful;
                 let target = self.target.expect(concat!("NekoPrint: target for ", stringify!(#printer_struct_name), " is required"));
                 let message_text = self.message.unwrap_or_default();
                 let message = format!(
                    "({} {} {}:{}) @PANIC => {:#?} {}",
-                    chrono::Local::now(),
+                    nekoprint_imports::chrono::Local::now(),
                     file!(),
                     line!(),
                     column!(),

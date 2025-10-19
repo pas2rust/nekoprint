@@ -1,5 +1,5 @@
 [package]
-name = "nekoprint-macro"
+name = "nekoprint-imports"
 version = "0.0.1"
 edition = "2024"
 license = "MIT OR Apache-2.0"
@@ -17,16 +17,9 @@ include = [
     "LICENSE*"
 ]
 
-[lib]
-proc-macro = true
-
 [features]
 
 [dependencies]
-syn =  { version = "2", features = ["full"]}
-quote = '1'
-proc-macro2 =  '1'
-mokuya = "0"
-
-[dev-dependencies]
-tokio = { version = "1", features = ["macros", "rt-multi-thread"]}
+chrono = { version = "0"} 
+colorful = { version = "0"}
+tokio = "1"

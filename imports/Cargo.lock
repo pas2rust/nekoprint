@@ -117,35 +117,8 @@ source = "registry+https://github.com/rust-lang/crates.io-index"
 checksum = "34080505efa8e45a4b816c349525ebe327ceaa8559756f0356cba97ef3bf7432"
 
 [[package]]
-name = "mokuya"
-version = "0.0.7"
-source = "registry+https://github.com/rust-lang/crates.io-index"
-checksum = "7c870b276fc2699d47e6791f263163da5be541d22bd84d586b7028e40d783cae"
-dependencies = [
- "chrono",
- "colorful",
- "proc-macro2",
- "quote",
- "syn",
-]
-
-[[package]]
-name = "nekoprint"
-version = "0.1.5"
-dependencies = [
- "mokuya",
- "nekoprint-imports",
- "proc-macro2",
- "quote",
- "syn",
- "tokio",
-]
-
-[[package]]
 name = "nekoprint-imports"
 version = "0.0.1"
-source = "registry+https://github.com/rust-lang/crates.io-index"
-checksum = "11873f11ba2a7dffcfbb64b8da987e5155edc902d9ed7a68595338bb1ee0aa9c"
 dependencies = [
  "chrono",
  "colorful",
@@ -221,18 +194,6 @@ source = "registry+https://github.com/rust-lang/crates.io-index"
 checksum = "ff360e02eab121e0bc37a2d3b4d4dc622e6eda3a8e5253d5435ecf5bd4c68408"
 dependencies = [
  "pin-project-lite",
- "tokio-macros",
-]
-
-[[package]]
-name = "tokio-macros"
-version = "2.6.0"
-source = "registry+https://github.com/rust-lang/crates.io-index"
-checksum = "af407857209536a95c8e56f8231ef2c2e2aff839b22e07a1ffcbc617e9db9fa5"
-dependencies = [
- "proc-macro2",
- "quote",
- "syn",
 ]
 
 [[package]]
